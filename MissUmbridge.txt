@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffeef0; /* softer pink */
+    overflow-x: hidden; /* Prevent horizontal scrolling on small screens */
+  }
+  .container {
+    max-width: 90%; /* Adjust max-width for smaller screens */
+    margin: 100px auto;
+    text-align: center;
+    position: relative; /* Needed for positioning the button */
+  }
+  h1 {
+    color: #b90000; /* nude red */
+  }
+  .btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Default cursor for buttons */
+    margin: 10px;
+    position: relative; /* Use relative positioning for responsiveness */
+    display: inline-block; /* Ensure buttons are displayed inline on smaller screens */
+  }
+  .btn-yes {
+    background-color: #ff80bf; /* pink */
+    color: white;
+  }
+  .btn-no {
+    background-color: #ffcccc; /* light red */
+    color: #333;
+  }
+  .heart {
+    position: absolute;
+    width: 80px; /* Increase heart size */
+    height: 80px; /* Increase heart size */
+    background-image: url('heart.png'); /* Heart image */
+    background-size: contain;
+    animation: heartbeat 1s infinite; /* Heartbeat animation */
+  }
+  @keyframes heartbeat {
+    0% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.8);
+    }
+  }
+
+  /* Left heart animation */
+  .heart.left {
+    top: calc(50% - 40px); /* Adjust position */
+    left: 10%; /* Adjust position */
+  }
+
+  /* Right heart animation */
+  .heart.right {
+    top: calc(50% - 40px); /* Adjust position */
+    right: 10%; /* Adjust position */
+  }
+
+  /* Bottom hearts animation */
+  .heart-cursor {
+    position: fixed;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url('heart_cursor.png'); /* Heart cursor image */
+    background-size: contain;
+    animation: moveHearts 5s infinite linear;
+  }
+
+  @keyframes moveHearts {
+    0%, 100% {
+      transform: translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateX(100px) rotate(45deg);
+    }
+    50% {
+      transform: translateX(-100px) rotate(-45deg);
+    }
+    75% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+
+  /* Styling for the marquee */
+  .marquee {
+    color: #b90000; /* nude red */
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px; /* Adjust margin */
+    background-color: #ffcccc; /* light red */
+    padding: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Will you be my Valentine?</h1>
+  <button class="btn btn-yes" id="yesBtn">Yes</button>
+  <button class="btn btn-no" id="noBtn">No</button>
+</div>
+
+<marquee class="marquee" behavior="scroll" direction="left" scrollamount="10">14 months</marquee>
+
+<div class="heart left"></div>
+<div class="heart right"></div>
+
+<div class="heart-cursor"></div>
+
+<script>
+  const yesButton = document.getElementById('yesBtn');
+  const noButton = document.getElementById('noBtn');
+  const container = document.querySelector('.container');
+  const h1 = document.querySelector('h1');
+
+  let yesClickCount = 0;
+  let noClickCount = 0;
+
+  yesButton.addEventListener('click', () => {
+    if (yesClickCount === 0) {
+      alert("You sure? (Click 'Yes' again, I don't believe you)");
+    } else if (yesClickCount === 1) {
+      alert("Aww you made the right choice! I love you. (I hope you didn't try to click the 'No' button, it's a bit fussy)");
+    } else {
+      let message = "Aww you made the right choice! I love you. (I hope you didn't try to click the 'No' button, it's a bit fussy)";
+      for (let i = 2; i < yesClickCount; i++) {
+        message += " 😊"; // Add one more blushing emoji for each additional click
+      }
+      alert(message);
+    }
+    yesClickCount++;
+  });
+
+  noButton.addEventListener('click', () => {
+    noClickCount++;
+    if (noClickCount === 3) {
+      alert("You really wanna say no? 😢");
+      noClickCount = 0; // Reset the click count
+    } else {
+      const maxX = container.clientWidth - noButton.offsetWidth;
+      const maxY = container.clientHeight - noButton.offsetHeight - h1.clientHeight; // Adjusting for the heading height
+      const newX = Math.floor(Math.random() * maxX);
+      const newY = Math.floor(Math.random() * maxY);
+      noButton.style.left = newX + 'px';
+      noButton.style.top = newY + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
+
+
